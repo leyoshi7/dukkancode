@@ -80,7 +80,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,
 header.sc{background:rgba(7,6,11,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:78px}
 .logo{display:flex;align-items:center;gap:12px;font-family:var(--head);font-size:26px}
-.logo i{white-space:nowrap;flex:none;font-style:normal;font-family:Inter;font-weight:800;font-size:15px;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+.logo i{white-space:nowrap;flex:none;font-style:normal;display:flex!important;align-items:center;justify-content:center;font-family:Inter;font-weight:800;font-size:15px;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
   background:linear-gradient(160deg,#1A1428,#0E0B16);border:1px solid rgba(139,92,246,.45);color:var(--p2);direction:ltr;letter-spacing:-1px}
 .logo i b{color:#fff}
 .nav ul{display:flex;gap:38px;list-style:none}
@@ -98,8 +98,8 @@ header.sc{background:rgba(7,6,11,.72);backdrop-filter:blur(14px);-webkit-backdro
 /* hero */
 .hero{min-height:100vh;display:flex;align-items:center;padding-top:110px}
 .hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center}
-.hero h1{font-family:var(--head);font-size:clamp(70px,11vw,160px);line-height:1.08;font-weight:900;margin:18px 0 22px;letter-spacing:-.01em}
-.hero h1 span{display:block;background:linear-gradient(100deg,#fff 20%,var(--p3) 55%,var(--p) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{white-space:nowrap;font-family:var(--head);font-size:clamp(58px,9vw,140px);line-height:1.08;font-weight:900;margin:18px 0 22px;letter-spacing:-.01em}
+.hero h1 span{display:inline;background:linear-gradient(100deg,#fff 20%,var(--p3) 55%,var(--p) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{font-size:20px;color:var(--mut);max-width:520px;margin-bottom:38px}
 .hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
 .orb{aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center}
@@ -133,6 +133,14 @@ header.sc{background:rgba(7,6,11,.72);backdrop-filter:blur(14px);-webkit-backdro
 .filters button:hover{color:#fff}
 .filters button.on{background:var(--t);color:var(--bg);border-color:var(--t)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid.one{grid-template-columns:1fr}
+.grid.one .card{flex-direction:row-reverse;min-height:340px}
+.grid.one .thumb{flex:1.2;aspect-ratio:auto}
+.grid.one .cbody{flex:1;justify-content:center;padding:44px}
+.grid.one .cbody h3{font-size:44px}
+.grid.one .cbody p{flex:0;font-size:17px;margin:12px 0 26px}
+.grid.one .art .ic{font-size:110px}
+@media(max-width:760px){.grid.one .card{flex-direction:column}.grid.one .thumb{aspect-ratio:4/3}.grid.one .cbody{padding:26px}.grid.one .cbody h3{font-size:32px}}
 .card{position:relative;border-radius:22px;overflow:hidden;background:var(--bg2);border:1px solid var(--line);
   transition:transform .6s cubic-bezier(.22,1,.36,1),border-color .4s,opacity .4s;display:flex;flex-direction:column}
 .card.hide{display:none}
@@ -266,14 +274,13 @@ footer .en{font-family:Inter;letter-spacing:.4em;font-size:11px;direction:ltr}
   <div class="wrap hero-in">
     <div>
       <div class="label rv">DIGITAL WORKSHOP</div>
-      <h1 class="rv">دكان<span>كود</span></h1>
+      <h1 class="rv">دكان <span>كود</span></h1>
       <p class="rv">مواقع، ألعاب، موشن كرافيك وتصاميم إعلانية. نسوّي فكرتك بشكل يفرح وبتفاصيل مضبوطة.</p>
       <div class="ctas rv">
         <a href="#work" class="btn btn-p">شوف الشغل ←</a>
         <a href="#order" class="btn btn-g">اطلب خدمتك</a>
       </div>
       <div class="stats rv">
-        <div><b data-count="8">0</b><small>مشاريع منشورة</small></div>
         <div><b data-count="5">0</b><small>أنواع خدمات</small></div>
         <div><b>24/7</b><small>نستقبل الطلبات</small></div>
       </div>
@@ -295,13 +302,7 @@ footer .en{font-family:Inter;letter-spacing:.4em;font-size:11px;direction:ltr}
       <div>
         <div class="label rv">SELECTED WORK</div>
         <h2 class="rv">من <em>شغلنا</em></h2>
-        <p class="lead rv">مشاريع حقيقية سوّيناها، منها ألعاب ومواقع ومنها إعلانات موشن لمحلات وشركات.</p>
-      </div>
-      <div class="filters rv" id="filters">
-        <button class="on" data-f="all">الكل</button>
-        <button data-f="site">مواقع</button>
-        <button data-f="game">ألعاب</button>
-        <button data-f="motion">موشن</button>
+        <p class="lead rv">مواقع حقيقية شغالة هسه، ادخل وجربها بنفسك.</p>
       </div>
     </div>
     <div class="grid" id="grid"></div>
@@ -385,14 +386,7 @@ const CONFIG = {
 
 // type: site | game | motion  —  link فارغ = يطلع "قريباً"  —  img اختياري (مسار صورة)
 const PROJECTS = [
-  {name:"Wallpaper Momo", type:"site", tag:"موقع", icon:"🖼️", desc:"موقع خلفيات أنمي ومسلسلات، تحميل مجاني مع لايكات.", link:"https://leyoshi7.github.io/wallpapermomo/"},
-  {name:"كوفي الأراكيل", type:"game", tag:"لعبة 3D", icon:"☕", desc:"محاكي كوفي ثلاثي الأبعاد: تحضّر الطلبات وتخدم الزبائن.", link:""},
-  {name:"شخابيط", type:"game", tag:"لعبة", icon:"✏️", desc:"ارسم الكلمة والذكاء الاصطناعي يحزر، أو العب ويه صديقك أونلاين.", link:""},
-  {name:"مجمع الفضل", type:"motion", tag:"موشن", icon:"🛋️", img:"images/alfadl.jpg", desc:"ريلز إعلاني لمجمع مفروشات وسجاد.", link:""},
-  {name:"مكتبة المتنبي", type:"motion", tag:"موشن", icon:"📚", desc:"ريلز موشن كرافيك لمكتبة.", link:""},
-  {name:"الأخطبوط", type:"motion", tag:"موشن + موقع", icon:"🐙", desc:"إعلانات وموقع تخطيط بيت لشركة تأسيس كهربائيات.", link:""},
-  {name:"محافظات العراق", type:"site", tag:"موقع", icon:"🗺️", desc:"موقع تفاعلي عن ١٨ محافظة بخريطة وصور حقيقية.", link:""},
-  {name:"Al Oscari's Store", type:"site", tag:"متجر", icon:"🛒", desc:"متجر إلكترونيات بسلة وطلب على الواتساب.", link:""},
+  {name:"Wallpaper Momo", type:"site", tag:"موقع", icon:"🖼️", desc:"موقع خلفيات أنمي ومسلسلات للموبايل والحاسبة. تحميل مجاني، لايكات، وقسم للخلفيات الأكثر إعجاباً.", link:"https://leyoshi7.github.io/wallpapermomo/"},
 ];
 
 /* ===================== INTRO ===================== */
@@ -463,6 +457,7 @@ document.getElementById('mq').innerHTML=[...MQ,...MQ,...MQ,...MQ].map(t=>`<span>
 
 // projects
 const grid=document.getElementById('grid');
+if(PROJECTS.length===1) grid.classList.add('one');
 grid.innerHTML=PROJECTS.map(p=>{
   const hue={site:265,game:285,motion:250}[p.type];
   const thumb=p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`
@@ -473,7 +468,7 @@ grid.innerHTML=PROJECTS.map(p=>{
 }).join('');
 
 // filters
-document.getElementById('filters').addEventListener('click',e=>{
+document.getElementById('filters')?.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));
   document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.t!==b.dataset.f));
