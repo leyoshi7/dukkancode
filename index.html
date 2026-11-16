@@ -406,10 +406,10 @@ const PROJECTS = [
     if(ended) return; ended=true;
     try{sessionStorage.setItem('dk_intro','1')}catch(e){}
     intro.classList.add('out'); document.body.classList.remove('locked');
-    setTimeout(()=>{intro.classList.add('gone');kick()},1000);
+    setTimeout(()=>{intro.classList.add('gone');setTimeout(kick,0)},1000);
   }
   document.getElementById('iSkip').onclick=finish;
-  if(seen || matchMedia('(prefers-reduced-motion:reduce)').matches){intro.classList.add('gone');document.body.classList.remove('locked');kick();return;}
+  if(seen || matchMedia('(prefers-reduced-motion:reduce)').matches){intro.classList.add('gone');document.body.classList.remove('locked');setTimeout(kick,0);return;}
 
   // 1) type </>
   const parts=['&lt;','&lt;<b>/</b>','&lt;<b>/</b>&gt;'];
@@ -438,7 +438,7 @@ const PROJECTS = [
 })();
 
 /* ===================== SITE ===================== */
-let kicked=false;
+var kicked=false;
 function kick(){
   if(kicked) return; kicked=true;
   // reveal on scroll
