@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دكان كود — Dukkan Code</title>
+<meta name="description" content="دكان كود: مواقع، ألعاب، موشن كرافيك، وتصاميم إعلانية.">
+<meta name="theme-color" content="#07060B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Dukkan";src:url(fonts/brand.otf) format("opentype");font-weight:900;font-display:swap}
+:root{
+  --bg:#07060B; --bg2:#0D0B14; --line:rgba(167,139,250,.14);
+  --p:#8B5CF6; --p2:#A78BFA; --p3:#C4B5FD; --pd:#4C1D95;
+  --t:#F4F1FA; --mut:#9A93AE;
+  --head:"Dukkan","Inter",sans-serif; --body:"Tajawal","Inter",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--body);font-size:17px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--p);color:#fff}
+
+/* ===================== INTRO ===================== */
+#intro{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:transform 1s cubic-bezier(.77,0,.18,1),opacity .6s}
+#intro.out{transform:translateY(-100%)}
+#intro.gone{display:none}
+#intro .aw{position:absolute;top:0;left:0;right:0;height:22vh;max-height:200px;transform:translateY(-105%);
+  transition:transform 1s cubic-bezier(.22,1.2,.36,1)}
+#intro.awning .aw{transform:none}
+#intro .aw svg{width:100%;height:100%;display:block}
+.i-tag{font-family:Inter;font-weight:800;font-size:clamp(34px,6vw,56px);color:var(--p2);direction:ltr;letter-spacing:-2px;
+  opacity:0;transform:translateY(10px) scale(.9);transition:all .6s cubic-bezier(.22,1,.36,1)}
+.i-tag b{color:#fff}
+.i-tag .cur{display:inline-block;width:.09em;height:.9em;background:var(--p2);margin-left:6px;vertical-align:-.08em;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#intro.s1 .i-tag{opacity:1;transform:none}
+.i-word{font-family:var(--head);font-size:clamp(64px,15vw,190px);line-height:1.15;margin-top:10px;min-height:1.2em;
+  color:#fff;white-space:nowrap;transition:text-shadow 1s, color .4s}
+.i-word.scr{color:var(--p3);text-shadow:0 0 18px rgba(139,92,246,.5)}
+.i-word.done{color:#fff;text-shadow:0 0 30px rgba(139,92,246,.8),0 0 90px rgba(139,92,246,.45)}
+.i-sub{font-family:Inter;font-weight:700;font-size:clamp(12px,1.6vw,16px);letter-spacing:.9em;color:var(--p3);direction:ltr;padding-left:.9em;
+  opacity:0;transform:translateY(8px);transition:all .8s .2s}
+#intro.awning .i-sub{opacity:.85;transform:none}
+.i-glow{position:absolute;width:60vmax;height:60vmax;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.22),transparent 60%);
+  opacity:0;transform:scale(.6);transition:all 1.6s cubic-bezier(.22,1,.36,1);pointer-events:none}
+#intro.done .i-glow{opacity:1;transform:none}
+.i-skip{position:absolute;bottom:28px;left:28px;font:500 14px var(--body);color:var(--mut);background:none;border:1px solid var(--line);
+  padding:8px 18px;border-radius:99px;cursor:pointer;transition:.3s}
+.i-skip:hover{color:#fff;border-color:var(--p)}
+.i-line{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,transparent,var(--p),transparent);width:0;transition:width 3.6s linear}
+#intro.s1 .i-line{width:100%}
+
+/* ===================== LAYOUT ===================== */
+.wrap{width:min(1180px,90vw);margin-inline:auto}
+section{padding:130px 0;position:relative}
+.label{font-family:Inter;font-weight:700;font-size:12px;letter-spacing:.35em;color:var(--p2);direction:ltr;display:inline-flex;gap:12px;align-items:center}
+.label::before{content:"";width:28px;height:1px;background:var(--p2)}
+h2{font-family:var(--head);font-size:clamp(40px,6vw,72px);line-height:1.2;margin:14px 0 18px;font-weight:900}
+h2 em{font-style:normal;color:var(--p2)}
+.lead{color:var(--mut);max-width:560px;font-size:18px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+/* bg */
+.bg-grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.cursor-glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(139,92,246,.10),transparent 65%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:opacity .4s}
+main,header,footer{position:relative;z-index:1}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+header.sc{background:rgba(7,6,11,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--head);font-size:26px}
+.logo i{white-space:nowrap;flex:none;font-style:normal;font-family:Inter;font-weight:800;font-size:15px;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(160deg,#1A1428,#0E0B16);border:1px solid rgba(139,92,246,.45);color:var(--p2);direction:ltr;letter-spacing:-1px}
+.logo i b{color:#fff}
+.nav ul{display:flex;gap:38px;list-style:none}
+.nav ul a{color:var(--mut);font-weight:500;transition:color .3s;position:relative}
+.nav ul a:hover{color:#fff}
+.nav ul a::after{content:"";position:absolute;bottom:-4px;right:0;width:0;height:1px;background:var(--p2);transition:width .35s}
+.nav ul a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 16px var(--body);padding:13px 28px;border-radius:99px;cursor:pointer;border:0;transition:all .35s cubic-bezier(.22,1,.36,1)}
+.btn-p{background:var(--p);color:#fff;box-shadow:0 10px 40px -10px rgba(139,92,246,.8)}
+.btn-p:hover{background:var(--p2);transform:translateY(-2px);box-shadow:0 16px 50px -10px rgba(139,92,246,.9)}
+.btn-g{background:transparent;color:var(--t);border:1px solid rgba(255,255,255,.16)}
+.btn-g:hover{border-color:var(--p2);color:var(--p3)}
+.burger{display:none;background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
+
+/* hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:110px}
+.hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center}
+.hero h1{font-family:var(--head);font-size:clamp(70px,11vw,160px);line-height:1.08;font-weight:900;margin:18px 0 22px;letter-spacing:-.01em}
+.hero h1 span{display:block;background:linear-gradient(100deg,#fff 20%,var(--p3) 55%,var(--p) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:20px;color:var(--mut);max-width:520px;margin-bottom:38px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.orb{aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center}
+.orb::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+.orb::after{content:"";position:absolute;inset:14%;border-radius:50%;border:1px dashed rgba(167,139,250,.22);animation:spin 40s linear infinite}
+.orb .core{width:46%;aspect-ratio:1;border-radius:32%;background:linear-gradient(160deg,#1C1530,#0B0912);border:1px solid rgba(139,92,246,.5);
+  display:grid;place-items:center;box-shadow:0 0 120px rgba(139,92,246,.35),inset 0 1px 0 rgba(255,255,255,.08);animation:float 6s ease-in-out infinite}
+.orb .core span{font-family:Inter;font-weight:800;font-size:clamp(34px,4.5vw,58px);color:var(--p2);direction:ltr;letter-spacing:-3px}
+.orb .core span b{color:#fff}
+.orb .dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--p2);box-shadow:0 0 20px var(--p)}
+.orb .d1{top:7%;left:50%}.orb .d2{bottom:20%;right:6%;background:#fff}.orb .d3{bottom:12%;left:16%;width:6px;height:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-14px)}}
+.stats{display:flex;gap:46px;margin-top:64px;padding-top:30px;border-top:1px solid var(--line)}
+.stats b{display:block;font-family:Inter;font-weight:800;font-size:36px;color:#fff;line-height:1}
+.stats small{color:var(--mut);font-size:14px}
+.scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);width:24px;height:38px;border:1px solid rgba(255,255,255,.2);border-radius:20px}
+.scroll-hint::after{content:"";position:absolute;top:8px;left:50%;width:3px;height:8px;margin-left:-1.5px;border-radius:3px;background:var(--p2);animation:sh 2s infinite}
+@keyframes sh{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* marquee */
+.marq{border-block:1px solid var(--line);padding:26px 0;overflow:hidden;white-space:nowrap;direction:ltr}
+.marq div{display:inline-flex;gap:60px;animation:mq 30s linear infinite;font-family:var(--head);font-size:34px;color:rgba(244,241,250,.25)}
+.marq div span::after{content:"✦";color:var(--p);margin-left:60px;font-size:20px;vertical-align:middle}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* work */
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:50px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:500 15px var(--body);color:var(--mut);background:transparent;border:1px solid var(--line);padding:9px 22px;border-radius:99px;cursor:pointer;transition:.3s}
+.filters button:hover{color:#fff}
+.filters button.on{background:var(--t);color:var(--bg);border-color:var(--t)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{position:relative;border-radius:22px;overflow:hidden;background:var(--bg2);border:1px solid var(--line);
+  transition:transform .6s cubic-bezier(.22,1,.36,1),border-color .4s,opacity .4s;display:flex;flex-direction:column}
+.card.hide{display:none}
+.card:hover{transform:translateY(-8px);border-color:rgba(167,139,250,.45)}
+.thumb{aspect-ratio:4/3;position:relative;overflow:hidden;background:#100D19}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.card:hover .thumb img,.card:hover .art{transform:scale(1.06)}
+.art{position:absolute;inset:0;display:grid;place-items:center;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.art .ic{font-size:64px;filter:drop-shadow(0 10px 30px rgba(139,92,246,.6))}
+.art .nm{position:absolute;bottom:18px;right:20px;font-family:var(--head);font-size:30px;color:rgba(255,255,255,.12)}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,6,11,.85),transparent 55%);pointer-events:none}
+.tag{position:absolute;top:16px;right:16px;z-index:2;font-size:13px;font-weight:700;padding:4px 14px;border-radius:99px;
+  background:rgba(7,6,11,.6);backdrop-filter:blur(8px);border:1px solid rgba(167,139,250,.35);color:var(--p3)}
+.cbody{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
+.cbody h3{font-family:var(--head);font-size:26px;font-weight:900;line-height:1.3}
+.cbody p{color:var(--mut);font-size:15px;margin:6px 0 18px;flex:1}
+.cbody a,.cbody .soon{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--p2);align-self:flex-start}
+.cbody a span{transition:transform .3s}
+.cbody a:hover span{transform:translateX(-6px)}
+.cbody .soon{color:var(--mut);font-weight:500}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:26px;overflow:hidden;margin-top:56px}
+.svc div{padding:40px 28px;border-left:1px solid var(--line);position:relative;transition:background .5s}
+.svc div:last-child{border-left:0}
+.svc div::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(139,92,246,.18),transparent 70%);opacity:0;transition:opacity .5s}
+.svc div:hover::before{opacity:1}
+.svc .n{font-family:Inter;font-weight:700;font-size:13px;color:var(--p2);letter-spacing:.2em}
+.svc .e{font-size:34px;margin:22px 0 14px;display:block}
+.svc h4{font-family:var(--head);font-size:24px;font-weight:900;margin-bottom:8px}
+.svc p{color:var(--mut);font-size:14.5px;line-height:1.7}
+
+/* order */
+.order{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+.form{background:linear-gradient(160deg,rgba(28,21,48,.6),rgba(13,11,20,.6));border:1px solid var(--line);border-radius:26px;padding:40px}
+.form label{display:block;font-size:14px;color:var(--mut);margin:0 0 8px}
+.form .f{margin-bottom:22px}
+.form input,.form textarea{width:100%;background:rgba(7,6,11,.7);border:1px solid var(--line);border-radius:14px;padding:14px 18px;
+  color:#fff;font:500 16px var(--body);outline:none;transition:border-color .3s,box-shadow .3s}
+.form input:focus,.form textarea:focus{border-color:var(--p);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
+.form textarea{min-height:120px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:500 14px var(--body);background:rgba(7,6,11,.7);border:1px solid var(--line);color:var(--mut);padding:9px 18px;border-radius:99px;cursor:pointer;transition:.25s}
+.chips button.on{background:var(--p);border-color:var(--p);color:#fff}
+.form .btn{width:100%;justify-content:center;margin-top:6px;padding:16px}
+.steps{list-style:none;margin-top:36px}
+.steps li{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.steps li b{font-family:Inter;font-weight:800;color:var(--p2);font-size:15px;min-width:28px}
+.steps li span{color:var(--mut)}
+.steps li strong{color:#fff;display:block;font-weight:700}
+
+/* contact */
+.contact{text-align:center}
+.contact h2{font-size:clamp(48px,8vw,110px)}
+.socials{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:40px}
+.soc{display:flex;align-items:center;gap:12px;padding:16px 28px;border-radius:18px;border:1px solid var(--line);background:var(--bg2);transition:.4s cubic-bezier(.22,1,.36,1);font-weight:700}
+.soc svg{width:22px;height:22px;fill:var(--p2);transition:fill .3s}
+.soc:hover{border-color:var(--p);transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(139,92,246,.7)}
+.soc:hover svg{fill:#fff}
+.soc small{display:block;font-family:Inter;font-weight:500;font-size:12px;color:var(--mut);direction:ltr;text-align:right}
+
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--mut);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer .en{font-family:Inter;letter-spacing:.4em;font-size:11px;direction:ltr}
+
+/* ===================== MOBILE ===================== */
+@media (max-width:980px){
+  .hero-in{grid-template-columns:1fr}
+  .orb{max-width:320px;margin:0 auto;order:-1;width:70%}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .svc{grid-template-columns:1fr 1fr}
+  .svc div{border-bottom:1px solid var(--line)}
+  .order{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:760px){
+  section{padding:90px 0}
+  .nav ul{position:fixed;inset:78px 0 auto 0;flex-direction:column;gap:0;background:rgba(7,6,11,.96);backdrop-filter:blur(14px);
+    padding:10px 6vw 24px;border-bottom:1px solid var(--line);transform:translateY(-10px);opacity:0;pointer-events:none;transition:.35s}
+  .nav ul.open{transform:none;opacity:1;pointer-events:auto}
+  .nav ul li a{display:block;padding:14px 0;font-size:18px}
+  .nav .btn-p{display:none}
+  .burger{display:block}
+  .hero{padding-top:100px}
+  .hero p{font-size:17px}
+  .stats{gap:28px}
+  .stats b{font-size:28px}
+  .grid{grid-template-columns:1fr}
+  .svc{grid-template-columns:1fr}
+  .svc div{border-left:0}
+  .form{padding:26px}
+  .scroll-hint{display:none}
+  .cursor-glow{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ===================== INTRO ===================== -->
+<div id="intro" aria-hidden="true">
+  <div class="aw"><svg id="awSvg" viewBox="0 0 1200 200" preserveAspectRatio="none"></svg></div>
+  <div class="i-glow"></div>
+  <div class="i-tag" id="iTag"></div>
+  <div class="i-word" id="iWord">&nbsp;</div>
+  <div class="i-sub">DUKKAN CODE</div>
+  <button class="i-skip" id="iSkip">تخطّي</button>
+  <div class="i-line"></div>
+</div>
+
+<div class="bg-grain"></div>
+<div class="cursor-glow" id="cg"></div>
+
+<!-- ===================== NAV ===================== -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" class="logo"><i>&lt;<b>/</b>&gt;</i>دكان كود</a>
+    <ul id="menu">
+      <li><a href="#work">الشغل</a></li>
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#order">اطلب خدمتك</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+    <a href="#order" class="btn btn-p">اطلب هسه</a>
+    <button class="burger" id="burger" aria-label="القائمة">☰</button>
+  </div>
+</header>
+
+<main id="top">
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <div class="label rv">DIGITAL WORKSHOP</div>
+      <h1 class="rv">دكان<span>كود</span></h1>
+      <p class="rv">مواقع، ألعاب، موشن كرافيك وتصاميم إعلانية. نسوّي فكرتك بشكل يفرح وبتفاصيل مضبوطة.</p>
+      <div class="ctas rv">
+        <a href="#work" class="btn btn-p">شوف الشغل ←</a>
+        <a href="#order" class="btn btn-g">اطلب خدمتك</a>
+      </div>
+      <div class="stats rv">
+        <div><b data-count="8">0</b><small>مشاريع منشورة</small></div>
+        <div><b data-count="5">0</b><small>أنواع خدمات</small></div>
+        <div><b>24/7</b><small>نستقبل الطلبات</small></div>
+      </div>
+    </div>
+    <div class="orb rv">
+      <div class="core"><span>&lt;<b>/</b>&gt;</span></div>
+      <i class="dot d1"></i><i class="dot d2"></i><i class="dot d3"></i>
+    </div>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<div class="marq"><div id="mq"></div></div>
+
+<!-- ===================== WORK ===================== -->
+<section id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <div class="label rv">SELECTED WORK</div>
+        <h2 class="rv">من <em>شغلنا</em></h2>
+        <p class="lead rv">مشاريع حقيقية سوّيناها، منها ألعاب ومواقع ومنها إعلانات موشن لمحلات وشركات.</p>
+      </div>
+      <div class="filters rv" id="filters">
+        <button class="on" data-f="all">الكل</button>
+        <button data-f="site">مواقع</button>
+        <button data-f="game">ألعاب</button>
+        <button data-f="motion">موشن</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section id="services">
+  <div class="wrap">
+    <div class="label rv">SERVICES</div>
+    <h2 class="rv">شنو <em>نسوّي</em>؟</h2>
+    <p class="lead rv">خدمات رقمية للطلاب والمحلات وأصحاب المشاريع، بسعر مناسب وتسليم سريع.</p>
+    <div class="svc rv">
+      <div><span class="n">01</span><span class="e">🌐</span><h4>مواقع ومتاجر</h4><p>متجر إلكتروني بطلب على الواتساب، أو موقع تعريفي لمحلك.</p></div>
+      <div><span class="n">02</span><span class="e">🎬</span><h4>موشن كرافيك</h4><p>ريلز إعلانية بحركة ناعمة ونصوص مرتبة لمحلك أو شركتك.</p></div>
+      <div><span class="n">03</span><span class="e">🎮</span><h4>ألعاب ويب</h4><p>ألعاب تشتغل من المتصفح على الموبايل والحاسبة.</p></div>
+      <div><span class="n">04</span><span class="e">📝</span><h4>بحوث Word</h4><p>بحوث مرتبة بتنسيق كامل: فهرس، مصادر، وغلاف.</p></div>
+      <div><span class="n">05</span><span class="e">📊</span><h4>جداول Excel</h4><p>جداول حسابات ومتابعة بمعادلات جاهزة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ORDER ===================== -->
+<section id="order">
+  <div class="wrap order">
+    <div>
+      <div class="label rv">ORDER</div>
+      <h2 class="rv">اطلب <em>خدمتك</em></h2>
+      <p class="lead rv">املأ الفورم، ويفتحلك الواتساب برسالة جاهزة بيها كل التفاصيل.</p>
+      <ul class="steps rv">
+        <li><b>01</b><div><strong>تختار الخدمة</strong><span>وتكتب فكرتك باختصار</span></div></li>
+        <li><b>02</b><div><strong>نتفاهم على التفاصيل</strong><span>السعر ووقت التسليم</span></div></li>
+        <li><b>03</b><div><strong>تستلم شغلك</strong><span>ونعدّل لحد ما يعجبك</span></div></li>
+      </ul>
+    </div>
+    <form class="form rv" id="orderForm">
+      <div class="f"><label>اسمك</label><input id="oName" required placeholder="مثلاً: علي"></div>
+      <div class="f"><label>شنو تحتاج؟</label>
+        <div class="chips" id="chips">
+          <button type="button" class="on">موقع / متجر</button>
+          <button type="button">موشن كرافيك</button>
+          <button type="button">لعبة</button>
+          <button type="button">بحث Word</button>
+          <button type="button">جدول Excel</button>
+        </div>
+      </div>
+      <div class="f"><label>اشرح فكرتك</label><textarea id="oMsg" placeholder="اكتب التفاصيل اللي تخطر ببالك…"></textarea></div>
+      <button class="btn btn-p" type="submit">ارسل على الواتساب ↗</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="label rv" style="justify-content:center">CONTACT</div>
+    <h2 class="rv">خلّينا <em>نشتغل</em></h2>
+    <p class="lead rv" style="margin-inline:auto">تابع شغلنا الجديد أول بأول، أو راسلنا مباشرة.</p>
+    <div class="socials rv" id="socials"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> دكان كود</span>
+    <span class="en">DUKKAN CODE</span>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   ✏️ عدّل هنا فقط: الروابط والمشاريع
+   ========================================================= */
+const CONFIG = {
+  whatsapp: "9647772488132",          // رقم الواتساب بدون + وبدون الصفر
+  instagram: "https://www.instagram.com/dukkan.code",
+  facebook: "https://www.facebook.com/share/1FbWyc5U97/",
+  tiktok: ""                           // اختياري
+};
+
+// type: site | game | motion  —  link فارغ = يطلع "قريباً"  —  img اختياري (مسار صورة)
+const PROJECTS = [
+  {name:"Wallpaper Momo", type:"site", tag:"موقع", icon:"🖼️", desc:"موقع خلفيات أنمي ومسلسلات، تحميل مجاني مع لايكات.", link:"https://leyoshi7.github.io/wallpapermomo/"},
+  {name:"كوفي الأراكيل", type:"game", tag:"لعبة 3D", icon:"☕", desc:"محاكي كوفي ثلاثي الأبعاد: تحضّر الطلبات وتخدم الزبائن.", link:""},
+  {name:"شخابيط", type:"game", tag:"لعبة", icon:"✏️", desc:"ارسم الكلمة والذكاء الاصطناعي يحزر، أو العب ويه صديقك أونلاين.", link:""},
+  {name:"مجمع الفضل", type:"motion", tag:"موشن", icon:"🛋️", img:"images/alfadl.jpg", desc:"ريلز إعلاني لمجمع مفروشات وسجاد.", link:""},
+  {name:"مكتبة المتنبي", type:"motion", tag:"موشن", icon:"📚", desc:"ريلز موشن كرافيك لمكتبة.", link:""},
+  {name:"الأخطبوط", type:"motion", tag:"موشن + موقع", icon:"🐙", desc:"إعلانات وموقع تخطيط بيت لشركة تأسيس كهربائيات.", link:""},
+  {name:"محافظات العراق", type:"site", tag:"موقع", icon:"🗺️", desc:"موقع تفاعلي عن ١٨ محافظة بخريطة وصور حقيقية.", link:""},
+  {name:"Al Oscari's Store", type:"site", tag:"متجر", icon:"🛒", desc:"متجر إلكترونيات بسلة وطلب على الواتساب.", link:""},
+];
+
+/* ===================== INTRO ===================== */
+(function(){
+  const intro=document.getElementById('intro'), tag=document.getElementById('iTag'), word=document.getElementById('iWord');
+  const TARGET="دكان كود", POOL="ابتثجحخدذرزسشصضطظعغفقكلمنهوي{}<>/=#;01";
+  let seen=false; try{seen=sessionStorage.getItem('dk_intro')==='1'}catch(e){}
+  // awning stripes (purple / dark)
+  const n=10,w=1200/n; let s='<rect width="1200" height="30" fill="#140F20"/>';
+  for(let i=0;i<n;i++){const x=i*w,c=i%2?'#1C1530':'#8B5CF6';
+    s+=`<path d="M${x} 30H${x+w}V160A${w/2} 40 0 0 1 ${x} 160Z" fill="${c}"/>`;}
+  s+='<rect y="30" width="1200" height="40" fill="#000" opacity=".18"/>';
+  document.getElementById('awSvg').innerHTML=s;
+
+  let ended=false;
+  function finish(){
+    if(ended) return; ended=true;
+    try{sessionStorage.setItem('dk_intro','1')}catch(e){}
+    intro.classList.add('out'); document.body.classList.remove('locked');
+    setTimeout(()=>{intro.classList.add('gone');kick()},1000);
+  }
+  document.getElementById('iSkip').onclick=finish;
+  if(seen || matchMedia('(prefers-reduced-motion:reduce)').matches){intro.classList.add('gone');document.body.classList.remove('locked');kick();return;}
+
+  // 1) type </>
+  const parts=['&lt;','&lt;<b>/</b>','&lt;<b>/</b>&gt;'];
+  setTimeout(()=>intro.classList.add('s1'),150);
+  parts.forEach((p,i)=>setTimeout(()=>tag.innerHTML=p+'<span class="cur"></span>',300+i*170));
+  // 2) scramble -> دكان كود
+  setTimeout(()=>{
+    word.classList.add('scr');
+    const L=TARGET.length, start=performance.now(), dur=1500;
+    (function f(t){
+      const p=Math.min(1,(t-start)/dur); let out='';
+      for(let i=0;i<L;i++){
+        const ch=TARGET[i];
+        if(ch===' '){out+=' ';continue}
+        out += (p > (i+1)/(L+1)) ? ch : POOL[(Math.random()*POOL.length)|0];
+      }
+      word.textContent=out;
+      if(p<1) requestAnimationFrame(f);
+      else{word.textContent=TARGET;word.classList.remove('scr');word.classList.add('done');intro.classList.add('done');tag.innerHTML=parts[2];}
+    })(start);
+  },900);
+  // 3) awning drops
+  setTimeout(()=>intro.classList.add('awning'),2550);
+  // 4) reveal site
+  setTimeout(finish,4300);
+})();
+
+/* ===================== SITE ===================== */
+let kicked=false;
+function kick(){
+  if(kicked) return; kicked=true;
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.closest('.hero')?i*0.09:0)+'s';io.observe(el)});
+  // counters
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const to=+el.dataset.count,t0=performance.now();
+    (function f(t){const p=Math.min(1,(t-t0)/1400);el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+'+';if(p<1)requestAnimationFrame(f)})(t0);
+  });
+}
+
+// marquee
+const MQ=["مواقع","موشن كرافيك","ألعاب","متاجر","تصاميم","بحوث","Excel"];
+document.getElementById('mq').innerHTML=[...MQ,...MQ,...MQ,...MQ].map(t=>`<span>${t}</span>`).join('');
+
+// projects
+const grid=document.getElementById('grid');
+grid.innerHTML=PROJECTS.map(p=>{
+  const hue={site:265,game:285,motion:250}[p.type];
+  const thumb=p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`
+   :`<div class="art" style="background:radial-gradient(circle at 70% 30%,hsla(${hue},80%,60%,.35),transparent 60%),linear-gradient(160deg,#1A1428,#0B0912)"><span class="ic">${p.icon}</span><span class="nm">${p.name}</span></div>`;
+  const cta=p.link?`<a href="${p.link}" target="_blank" rel="noopener">افتح المشروع <span>←</span></a>`:`<span class="soon">قريباً ✦</span>`;
+  return `<article class="card rv" data-t="${p.type}"><div class="thumb">${thumb}<span class="tag">${p.tag}</span></div>
+    <div class="cbody"><h3>${p.name}</h3><p>${p.desc}</p>${cta}</div></article>`;
+}).join('');
+
+// filters
+document.getElementById('filters').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.t!==b.dataset.f));
+});
+
+// chips
+let service="موقع / متجر";
+document.getElementById('chips').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#chips button').forEach(x=>x.classList.toggle('on',x===b)); service=b.textContent;
+});
+
+// order -> whatsapp
+document.getElementById('orderForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('oName').value.trim(), msg=document.getElementById('oMsg').value.trim();
+  const text=`هلا دكان كود 👋\nالاسم: ${name}\nالخدمة: ${service}\nالتفاصيل: ${msg||'—'}`;
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`,'_blank');
+});
+
+// socials
+const ICONS={
+ wa:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8 0-1.4.7-2 1-2.3.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.2z"/></svg>',
+ ig:'<svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM21.9 7c-.1-1.6-.4-3-1.6-4.2S17.6 1.2 16 1.1C14.4 1 9.6 1 8 1.1 6.4 1.2 5 1.5 3.8 2.7S2.2 5.4 2.1 7C2 8.6 2 13.4 2.1 15c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.6.1-6.4 0-8zM19.8 17.4a3.3 3.3 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.8-1.8c-.5-1.3-.4-4.3-.4-5.9s-.1-4.6.4-5.9A3.3 3.3 0 0 1 6.2 3.8C7.5 3.3 10.5 3.4 12 3.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.9s.1 4.6-.4 5.9z"/></svg>',
+ fb:'<svg viewBox="0 0 24 24"><path d="M14 8V6c0-.9.2-1.4 1.6-1.4H17V1.2C16.7 1.1 15.6 1 14.4 1 11.8 1 10 2.6 10 5.5V8H7v3.6h3V23h4V11.6h3l.5-3.6H14z"/></svg>',
+ tt:'<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.6a2.9 2.9 0 1 1-2-2.8V9.4a6.3 6.3 0 1 0 5.4 6.2V8.7a8.2 8.2 0 0 0 4.8 1.5V6.8l-1-.1z"/></svg>'
+};
+const SOC=[
+ {k:'wa',n:'واتساب',h:'+'+CONFIG.whatsapp,u:`https://wa.me/${CONFIG.whatsapp}`},
+ {k:'ig',n:'انستغرام',h:'@dukkan.code',u:CONFIG.instagram},
+ {k:'fb',n:'فيسبوك',h:'دكان كود',u:CONFIG.facebook},
+ {k:'tt',n:'تيك توك',h:'@dukkan.code',u:CONFIG.tiktok},
+].filter(s=>s.u);
+document.getElementById('socials').innerHTML=SOC.map(s=>`<a class="soc" href="${s.u}" target="_blank" rel="noopener">${ICONS[s.k]}<span>${s.n}<small>${s.h}</small></span></a>`).join('');
+
+// nav + misc
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('sc',scrollY>30),{passive:true});
+const menu=document.getElementById('menu');
+document.getElementById('burger').onclick=()=>menu.classList.toggle('open');
+menu.querySelectorAll('a').forEach(a=>a.onclick=()=>menu.classList.remove('open'));
+const cg=document.getElementById('cg');
+addEventListener('pointermove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px'},{passive:true});
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
